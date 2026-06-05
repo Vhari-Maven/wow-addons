@@ -1,0 +1,8 @@
+## Interface: 120005
+## Title: AH Dashboard
+## Notes: Tooltip enrichment with sale prices and crafting costs
+## Author: jamesdavis
+## OptionalDeps: AHLedger, RecipeDB
+## Version: 1.0.0
+
+Core.lua

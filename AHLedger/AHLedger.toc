@@ -1,0 +1,12 @@
+## Interface: 120005
+## Title: AH Ledger
+## Notes: Lightweight auction house transaction tracker
+## Author: jamesdavis
+## Version: 1.0.0
+## IconTexture: interface\icons\inv_misc_coin_17
+## SavedVariables: AHLedgerDB
+## OptionalDeps: RecipeDB
+## AddonCompartmentFunc: AHLedger_OnAddonCompartmentClick
+
+Core.lua
+GUI.lua

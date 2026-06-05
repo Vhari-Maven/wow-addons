@@ -1,0 +1,8 @@
+## Interface: 120005
+## Title: AH Expansion Filter
+## Notes: Defaults the Auction House "Current Expansion Only" filter to checked
+## Author: jamesdavis
+## Version: 1.0.0
+## IconTexture: interface\icons\auction_gavel
+
+AHExpansionFilter.lua

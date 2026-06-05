@@ -1,0 +1,10 @@
+## Interface: 120005
+## Title: RecipeDB
+## Notes: Scans your professions and builds a recipe-to-reagent database for other addons to use
+## Author: jamesdavis
+## Version: 1.0.0
+## IconTexture: interface\icons\inv_misc_book_09
+## SavedVariables: RecipeDBData
+## OptionalDeps: Blizzard_Professions
+
+Core.lua
