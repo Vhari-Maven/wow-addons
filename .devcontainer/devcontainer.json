@@ -1,0 +1,69 @@
+{
+  "name": "WoW Addons (Claude Code)",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "TZ": "${localEnv:TZ:America/New_York}",
+      "CLAUDE_CODE_VERSION": "latest",
+      "GIT_DELTA_VERSION": "0.18.2",
+      "ZSH_IN_DOCKER_VERSION": "1.2.0",
+      "STYLUA_VERSION": "2.0.2"
+    }
+  },
+  "initializeCommand": "${localWorkspaceFolder}/.devcontainer/load-secrets.sh",
+  "runArgs": [
+    "--cap-add=NET_ADMIN",
+    "--cap-add=NET_RAW",
+    "--userns=keep-id",
+    "--secret=github_token,type=mount,uid=1000,gid=1000,mode=0400,target=/run/secrets/github-token"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code",
+        "eamodio.gitlens",
+        "sumneko.lua",
+        "JohnnyMorganz.stylua",
+        "charliermarsh.ruff"
+      ],
+      "settings": {
+        "editor.fontFamily": "'MesloLGS NF', monospace",
+        "terminal.integrated.fontFamily": "MesloLGS NF",
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "claudeCode.allowDangerouslySkipPermissions": true,
+        "claudeCode.initialPermissionMode": "bypassPermissions",
+        "terminal.integrated.profiles.linux": {
+          "bash": { "path": "bash", "icon": "terminal-bash" },
+          "zsh": { "path": "zsh" }
+        },
+        "[lua]": {
+          "editor.defaultFormatter": "JohnnyMorganz.stylua",
+          "editor.formatOnSave": true
+        },
+        "[python]": {
+          "editor.defaultFormatter": "charliermarsh.ruff",
+          "editor.formatOnSave": true
+        }
+      }
+    }
+  },
+  "remoteUser": "bun",
+  "containerUser": "bun",
+  "updateRemoteUserUID": true,
+  "mounts": [
+    "source=wow-addons-bashhistory,target=/commandhistory,type=volume",
+    "source=wow-addons-claude-config,target=/home/bun/.claude,type=volume",
+    "source=${localEnv:HOME}/.gnupg,target=/home/bun/host-gnupg,type=bind,readonly",
+    "source=${localEnv:HOME}/.gitconfig,target=/home/bun/.gitconfig-host,type=bind,readonly"
+  ],
+  "containerEnv": {
+    "CLAUDE_CONFIG_DIR": "/home/bun/.claude",
+    "POWERLEVEL9K_DISABLE_GITSTATUS": "true",
+    "GPG_TTY": "/dev/console"
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated,Z",
+  "workspaceFolder": "/workspace",
+  "postCreateCommand": "mkdir -p /home/bun/.gnupg && cp -a /home/bun/host-gnupg/. /home/bun/.gnupg/ && rm -f /home/bun/.gnupg/S.gpg-agent* /home/bun/.gnupg/public-keys.d/*.lock && chmod 700 /home/bun/.gnupg && find /home/bun/.gnupg -type f -exec chmod 600 {} + && printf '[include]\\n\\tpath = /home/bun/.gitconfig-host\\n[credential \"https://github.com\"]\\n\\thelper =\\n[credential \"https://gist.github.com\"]\\n\\thelper =\\n' > /home/bun/.gitconfig",
+  "postStartCommand": "sudo /usr/local/bin/init-firewall.sh",
+  "waitFor": "postStartCommand"
+}
