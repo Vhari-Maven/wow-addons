@@ -18,8 +18,6 @@ ENC_DIR="${HOME}/.secrets-enc"
 # podman-secret-name : source filename (decrypted from <filename>.gpg)
 KEYS=(
   "github_token:github-token"
-  "anthropic_key:anthropic-api-key"
-  "openrouter_key:openrouter-api-key"
 )
 
 for entry in "${KEYS[@]}"; do
